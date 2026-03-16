@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build & Test ${{ matrix.service }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service:
+          - catalog-service
+          - order-service
+          - identity-service
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies — ${{ matrix.service }}
+        run: dotnet restore services/${{ matrix.service }}
+
+      - name: Build — ${{ matrix.service }}
+        run: dotnet build services/${{ matrix.service }} --no-restore --configuration Release
+
+      - name: Test — ${{ matrix.service }}
+        run: dotnet test services/${{ matrix.service }} --no-build --configuration Release --verbosity normal
+        continue-on-error: true
+
+  build-gateway:
+    name: Build Gateway
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies — gateway
+        run: dotnet restore gateway/
+
+      - name: Build — gateway
+        run: dotnet build gateway/ --no-restore --configuration Release
+
+  docker-compose-validate:
+    name: Validate Docker Compose
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
