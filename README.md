@@ -1,6 +1,6 @@
 # .NET 8 Microservices with Docker Compose & Ocelot API Gateway
 
-[![CI](https://github.com/miteshdekate93/dotnet-microservices-docker/actions/workflows/ci.yml/badge.svg)](https://github.com/miteshdekate93/dotnet-microservices-docker/actions/workflows/ci.yml)
+[![CI](https://github.com/miteshdekate93/shopnet-microservices/actions/workflows/ci.yml/badge.svg)](https://github.com/miteshdekate93/shopnet-microservices/actions/workflows/ci.yml)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![Microservices](https://img.shields.io/badge/Architecture-Microservices-orange)](https://microservices.io/)
@@ -63,8 +63,8 @@ Each service → its own isolated PostgreSQL database
 ### Run Everything
 
 ```bash
-git clone https://github.com/miteshdekate93/dotnet-microservices-docker.git
-cd dotnet-microservices-docker
+git clone https://github.com/miteshdekate93/shopnet-microservices.git
+cd shopnet-microservices
 docker-compose up --build
 ```
 
@@ -105,7 +105,7 @@ GET http://localhost:5003/health   → Identity Service
 ## Project Structure
 
 ```
-dotnet-microservices-docker/
+shopnet-microservices/
 ├── docker-compose.yml
 ├── gateway/
 │   ├── Gateway.csproj
